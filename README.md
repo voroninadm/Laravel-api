@@ -12,3 +12,4 @@
 2. Добавляем api.
 - ``php artisan install:api`` - установится sanctum и добавятся роуты api
 3. Добавляем MYSQL_EXTRA_OPTIONS в .env
+4. ``php artisan storage:link`` - делаем ссылку на хранилище
