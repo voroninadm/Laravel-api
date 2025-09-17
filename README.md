@@ -13,3 +13,5 @@
 - ``php artisan install:api`` - установится sanctum и добавятся роуты api
 3. Добавляем MYSQL_EXTRA_OPTIONS в .env
 4. ``php artisan storage:link`` - делаем ссылку на хранилище
+В config/filesystems создана ссылка для хранения аватарок``public_path('avatars') => storage_path('app/avatars')`` 
+Сохраненные файлы летят в /storage/avatars/{avatar_name}

@@ -32,7 +32,6 @@ class UserController extends Authenticatable
             'message' => 'Пользователь успешно зарегистрирован',
             'user' => $user->makeHidden('password'),
             'token' => $token,
-            'token_type' => 'Bearer',
             'avatar_url' => $user->avatar ? asset('storage/' . $user->avatar) : null
         ], 201);
 

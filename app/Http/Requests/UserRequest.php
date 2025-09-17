@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
             'password' => 'required|min:8',
             'password_confirmation' => 'required|same:password',
             'name' => 'required|string|max:255',
-            'avatar' => 'image|max:10240',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
         ];
     }
 }
