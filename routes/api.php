@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FilmController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,3 +14,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/user', [UserController::class, 'update']);
 });
 
+Route::get('/films', [FilmController::class, 'index']);
+Route::get('/films/{id}', [FilmController::class, 'show']);

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Film;
+use App\Models\Genre;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,8 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('avatar')->nullable()->after('name')->nullable();
+        Schema::create('film_genre', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Film::class)->constrained();
+            $table->foreignIdFor(Genre::class)->constrained();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('avatar');
-        });
+        Schema::dropIfExists('film_genre');
     }
 };
