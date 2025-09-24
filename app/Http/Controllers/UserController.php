@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Auth\UserLoginRequest;
 use App\Http\Requests\Auth\UserRegisterRequest;
 use App\Http\Requests\Auth\UserUpdateRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -51,7 +52,7 @@ class UserController extends Controller
 
     public function show(): JsonResponse
     {
-        $user = auth()->user();
+        $user = new UserResource(auth()->user());
         return response()->json([
             'user' => $user], 200);
     }
