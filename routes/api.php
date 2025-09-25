@@ -1,18 +1,53 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// Auth and User routes
-Route::post('/register', [UserController::class, 'register']);
-Route::post('/login', [UserController::class, 'login']);
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/logout', [UserController::class, 'logout']);
-    Route::get('/user', [UserController::class, 'show']);
-    Route::patch('/user', [UserController::class, 'update']);
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('auth.logout');
 });
 
-Route::get('/films', [FilmController::class, 'index']);
-Route::get('/films/{id}', [FilmController::class, 'show']);
+Route::controller(UserController::class)->middleware('auth:sanctum')->group(function () {
+    Route::get('/user', [UserController::class, 'show'])->name('user.index');
+    Route::patch('/user', [UserController::class, 'update'])->name('user.update');
+});
+
+Route::controller(FilmController::class)->middleware('auth:sanctum')->group(function () {
+    Route::get('/films', 'index')->name('films.index');
+    Route::get('/films/{id}', 'show')->name('films.show');
+    Route::post('/films/', 'store')->name('films.store');
+    Route::patch('/films/{id}', 'update')->name('films.update');
+    Route::get('/films/{id}/similar', 'similar')->name('films.similar');
+});
+
+Route::controller(GenreController::class)->middleware('auth:sanctum')->group(function () {
+    Route::get('/genres', 'index')->name('genres.index');
+    Route::patch('/genres/{genre}', 'update')->name('genres.update');
+});
+
+Route::controller(FavouriteController::class)->middleware('auth:sanctum')->group(function () {
+    Route::get('/favourite', 'index')->name('favourite.index');
+    Route::post('/films/{id}/favourite', 'store')->name('favourite.store');
+    Route::delete('/films/films/{id}/favourite', 'destroy')->name('favourite.destroy');
+});
+
+Route::controller(CommentController::class)->middleware('auth:sanctum')->group(function () {
+    Route::get('/films/{id}/comments', 'index')->name('comments.index');
+    Route::post('/films/{id}/comments', 'store')->name('comments.store');
+    Route::patch('/comments/{comment}', 'update')->name('comments.update');
+    Route::delete('/comments/{comment}', 'destroy')->name('comments.destroy');
+});
+
+Route::controller(PromoController::class)->middleware('auth:sanctum')->group(function () {
+    Route::get('/promo', 'show')->name('promo.index');
+    Route::post('/promo/{id}', 'store')->name('promo.store');
+});
