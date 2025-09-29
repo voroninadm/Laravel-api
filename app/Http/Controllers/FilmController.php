@@ -3,25 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Film;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Support\Responsable;
 
 class FilmController extends Controller
 {
-    public function index()
+    public function index(): Responsable
     {
         $films = Film::with('genres')->paginate(8);
-
-        return response()->json([
-            'films' =>$films,
-        ], 200);
+        return $this->paginatedResponse($films);
     }
 
-    public function show($id): JsonResponse
+    public function show($id): Responsable
     {
         $film = Film::with('genres')->findOrFail($id);
-        return response()->json([
-            'film' =>$film,
-        ],200);
+        return $this->successResponse($film);
     }
 
     public function store()

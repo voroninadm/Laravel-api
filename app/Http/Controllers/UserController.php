@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\UserUpdateRequest;
 use App\Http\Resources\UserResource;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    public function show(): JsonResponse
+
+    public function show(): Responsable
     {
         $user = new UserResource(auth()->user());
-        return response()->json([
-            'user' => $user], 200);
+        return $this->successResponse($user, 201);
     }
 
-    public function update(UserUpdateRequest $request): JsonResponse
+    public function update(UserUpdateRequest $request): Responsable
     {
         $user = auth()->user();
         $data = $request->only(['email', 'name']);
@@ -36,8 +36,6 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return response()->json([
-            'message' => 'Профиль пользователя успешно обновлен',
-        ], 200);
+        return $this->successResponse(new UserResource($user));
     }
 }

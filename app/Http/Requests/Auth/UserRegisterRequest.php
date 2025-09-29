@@ -28,4 +28,14 @@ class UserRegisterRequest extends FormRequest
             'file' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'email' => 'Email',
+            'password' => 'Пароль',
+            'name' => 'Имя',
+            'file' => 'Аватар',
+        ];
+    }
 }
