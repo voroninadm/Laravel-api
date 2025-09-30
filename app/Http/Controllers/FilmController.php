@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FilmResource;
 use App\Models\Film;
 use Illuminate\Contracts\Support\Responsable;
 
@@ -16,7 +17,7 @@ class FilmController extends Controller
     public function show($id): Responsable
     {
         $film = Film::with('genres')->findOrFail($id);
-        return $this->successResponse($film);
+        return $this->successResponse(new FilmResource($film));
     }
 
     public function store()

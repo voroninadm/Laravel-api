@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             'is_moderator' => true
         ]);
 
+        User::factory(3)->create();
+
         $this->call([
             GenreSeeder::class,
             FilmSeeder::class,

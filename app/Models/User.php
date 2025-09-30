@@ -4,8 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -34,6 +36,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -47,5 +51,32 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function setPasswordAttribute($value): void
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function isModerator() {
+        return $this->is_moderator === true;
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function liked_films(): HasMany
+    {
+        return $this->hasMany(Film::class);
+    }
+
+    /**
+     * Проверка есть ли указанный фильм в списке избранных.
+     */
+    public function hasFilm(Film $film): bool
+    {
+        return $this->liked_films()->where('film_id', $film->id)->exists();
     }
 }

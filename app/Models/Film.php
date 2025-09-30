@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 class Film extends Model
 {
@@ -36,14 +38,49 @@ class Film extends Model
         'updated_at',
     ];
 
+    protected $casts = [
+        'starring' => 'array',
+        'is_promo' => 'bool',
+    ];
 
     public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class);
     }
 
-    protected $casts = [
-        'starring' => 'array',
-        'is_promo' => 'bool',
-    ];
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function scores(): HasMany
+    {
+        return $this->hasMany(Comment::class)->whereNotNull('rating');
+    }
+
+    public function getRatingAttribute()
+    {
+        return round($this->scores()->avg('rating'), 1);
+    }
+
+    public function getIsFavoriteAttribute()
+    {
+        return Auth::check() && Auth::user()->hasFilm($this);
+    }
+
+    /**
+     * Добавление сортировки.
+     */
+    public function scopeOrdered($query, ?string $orderBy = null, ?string $orderTo = null)
+    {
+        return $query->when($orderBy === 'rating', function ($q) {
+            $q->withAvg('scores as rating', 'rating');
+        })->orderBy($orderBy ?? 'released', $orderTo ?? 'desc');
+    }
+
+    public function scopePromo($query)
+    {
+        $query->where('promo', true);
+    }
+
 }

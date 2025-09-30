@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Film::class)->constrained();
             $table->foreignIdFor(Genre::class)->constrained();
-            $table->timestamps();
+            $table->timestampsTz();
         });
     }
 
