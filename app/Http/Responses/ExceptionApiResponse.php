@@ -57,12 +57,12 @@ class ExceptionApiResponse extends BaseApiResponse
                 $errors = $e->errors();
                 break;
 
-            case $e instanceof AuthenticationException || $e instanceof AccessDeniedHttpException:
+            case $e instanceof AuthenticationException:
                 $code = 401;
                 $message = 'Требуется аутентификация. Пожалуйста, предоставьте действительные учётные данные.';
                 break;
 
-            case $e instanceof AuthorizationException:
+            case $e instanceof AuthorizationException || $e instanceof AccessDeniedHttpException:
                 $code = 403;
                 $message = 'У вас нет разрешения на выполнение этого действия.';
                 break;
