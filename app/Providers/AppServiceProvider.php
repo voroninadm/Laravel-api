@@ -33,7 +33,11 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(20)->by($request->user()?->id ?: $request->ip());
         });
 
-        Gate::define('delete-comment', function (User $user, Comment $comment) {
+        Gate::define('comment.update', function (User $user, Comment $comment) {
+            return $comment->author->is($user) || $user->isModerator();
+        });
+
+        Gate::define('comment.delete', function (User $user, Comment $comment) {
             return $comment->author->is($user) || $user->isModerator();
         });
     }

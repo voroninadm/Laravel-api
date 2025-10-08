@@ -20,12 +20,14 @@ class CommentController extends Controller
 
     public function update(Request $request, Comment $comment)
     {
+        Gate::authorize('comment.update', $comment);
+
         return "update comment to film";
     }
 
     public function destroy(Comment $comment)
     {
-        Gate::authorize('delete-comment', $comment);
+        Gate::authorize('comment.delete', $comment);
         $comment->delete();
 
         return $this->successResponse([

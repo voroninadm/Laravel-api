@@ -32,7 +32,7 @@
 
 Настройки для exception-ответов в app/bootstrap/app - сейчас подключен 1 вариант - с Responses.
 При желании работать со вторым подходом - внести изменения в коде.
-10. В bootstrap\app в методе boot объявлен Gate "delete-comment".
+10. В app\Providers\AppServiceProvider в методе boot объявлен Gate "delete-comment".
 Выполняется проверка, является ли авторизованный юзер автором удаляемого коммента или есть ли у него роль модератора.
 Проверка добавлена в контроллере, как ``Gate::authorize('delete-comment', $comment);``
 11. Вместо ранее созданного гейта для п.10 - создана middleware - EnsureUserHasRole, которая проверяет, объявлен ли метод
