@@ -11,7 +11,7 @@ use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Str;
 
 
-class UserLoginRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\UserUpdateRequest;
+use App\Http\Requests\Auth\UserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +16,7 @@ class UserController extends Controller
         return $this->successResponse($user, 201);
     }
 
-    public function update(UserUpdateRequest $request): Responsable
+    public function update(UserRequest $request): Responsable
     {
         $user = auth()->user();
         $data = $request->only(['email', 'name', 'password']);

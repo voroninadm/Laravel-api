@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\UserLoginRequest;
-use App\Http\Requests\Auth\UserRegisterRequest;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\UserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(UserRegisterRequest $request): JsonResponse
+    public function register(UserRequest $request): JsonResponse
     {
-        $user_data = $request->except('file');
+        $user_data = $request->safe()->except('file');
         $user = new User($user_data);
 
         if ($request->hasFile('file')) {
@@ -32,7 +30,7 @@ class AuthController extends Controller
 
     }
 
-    public function login(UserLoginRequest $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         $request->authenticate();
         $token = Auth::user()->createToken('auth-token')->plainTextToken;

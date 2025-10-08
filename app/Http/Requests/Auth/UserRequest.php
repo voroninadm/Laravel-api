@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
-class UserRegisterRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +25,9 @@ class UserRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
-            'name' => 'required|string|max:255',
+            'email' => ['required', 'email', $this->getUniqRule()],
+            'password' => [$this->getPasswordRequiredRule(),'min:8','confirmed'],
+            'name' => 'required|string|max:200',
             'file' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
         ];
     }
@@ -37,5 +40,21 @@ class UserRegisterRequest extends FormRequest
             'name' => 'Имя',
             'file' => 'Аватар',
         ];
+    }
+
+    private function getUniqRule()
+    {
+        $rule = Rule::unique(User::class);
+
+        if ($this->isMethod('patch') && Auth::check()) {
+            return $rule->ignore(Auth::user());
+        }
+
+        return $rule;
+    }
+
+    private function getPasswordRequiredRule()
+    {
+        return $this->isMethod('patch') ? 'sometimes' : 'required';
     }
 }
