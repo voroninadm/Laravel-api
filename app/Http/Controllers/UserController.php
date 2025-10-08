@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Auth\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -20,10 +19,10 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request): Responsable
     {
         $user = auth()->user();
-        $data = $request->only(['email', 'name']);
+        $data = $request->only(['email', 'name', 'password']);
 
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
+        if (!$request->filled('password')) {
+            unset($data['password']);
         }
 
         if ($request->hasFile('file')) {

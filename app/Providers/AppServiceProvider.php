@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -32,8 +33,8 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(20)->by($request->user()?->id ?: $request->ip());
         });
 
-        Gate::define('moderator', function (User $user) {
-            return $user->isModerator();
+        Gate::define('delete-comment', function (User $user, Comment $comment) {
+            return $comment->author->is($user) || $user->isModerator();
         });
     }
 }

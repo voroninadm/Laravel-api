@@ -12,14 +12,10 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // изменить возврат по тз
     public function register(UserRegisterRequest $request): JsonResponse
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-
+        $user_data = $request->except('file');
+        $user = new User($user_data);
 
         if ($request->hasFile('file')) {
             $path = $request->file('file')->store('avatars', 'public');

@@ -40,6 +40,11 @@ class User extends Authenticatable
         'updated_at',
     ];
 
+    public function setPasswordAttribute($value): void
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -53,13 +58,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function setPasswordAttribute($value): void
-    {
-        $this->attributes['password'] = Hash::make($value);
-    }
-
     public function isModerator() {
-        return $this->is_moderator === true;
+        return (bool) $this->is_moderator;
     }
 
     public function comments(): HasMany

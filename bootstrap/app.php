@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\ApiExceptionHandler;
+use App\Http\Middleware\EnsureUserHasRole;
 use App\Http\Responses\ExceptionApiResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -15,8 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'role' => EnsureUserHasRole::class
+        ]);
     })
+
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->dontFlash([
             'current_password',
@@ -56,7 +60,7 @@ return Application::configure(basePath: dirname(__DIR__))
          * удалить или закомментировать при использовании подхода выше
          */
         $exceptions->render(function (Throwable $exception) {
-                return (new ExceptionApiResponse($exception));
+            return (new ExceptionApiResponse($exception));
         });
     })
     ->create();

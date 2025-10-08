@@ -30,18 +30,19 @@ class Comment extends Model
         'author',
     ];
 
+    // виртуальное поле для имени автора коммента
     protected $appends = [
-        'author',
+        'author_name',
     ];
 
-    public function getAuthorAttribute()
+    public function getAuthorNameAttribute()
     {
-        return $this->user->name ?? self::DEFAULT_AUTHOR;
+        return $this->author->name ?? self::DEFAULT_AUTHOR;
     }
 
-    public function user(): BelongsTo
+    public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function film(): BelongsTo
