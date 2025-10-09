@@ -43,14 +43,19 @@ describe('User Authentication Flow', function () {
         expect($response->json('token'))->not->toBeNull();
     });
 
-    it('logs out successfully', function () use (&$token, $userData) {
+    it('logout successfully', function () use (&$token, $userData) {
         $response = $this->postJson('/api/register', $userData);
         $token = $response->json('token');
 
         $response = $this
-            ->withHeaders(['Authorization' => 'Bearer ' . $token])
+            ->withToken($token)
             ->postJson('/api/logout');
 
         $response->assertOk();
+    });
+
+    it('can not logout when not authorized', function () {
+        $response = $this->postJson('/api/logout');
+        $response->assertUnauthorized();
     });
 });
