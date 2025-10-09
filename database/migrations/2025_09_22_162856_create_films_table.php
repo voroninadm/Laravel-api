@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Film;
+use App\Enums\FilmStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,10 +24,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('director')->nullable();
             $table->json('starring')->nullable();
-            $table->unsignedInteger('run_time')->nullable();
-            $table->unsignedInteger('released')->nullable();
+            $table->string('run_time')->nullable();
+            $table->string('released')->nullable();
             $table->boolean('is_promo')->default(false);
-            $table->string('status')->default(Film::STATUS_PENDING);
+            $table->string('status')->default(FilmStatus::Pending);
             $table->string('imdb_id');
             $table->timestampsTz();
         });

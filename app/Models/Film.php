@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Film extends Model
 {
-    public const STATUS_PENDING = 'pending';
-    public const STATUS_ON_MODERATION = 'moderate';
-    public const STATUS_READY = 'ready';
-
-
     protected $table = 'films';
     protected $fillable = [
         "name",
