@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Contracts\FilmRepositoryInterface;
 use App\Models\Comment;
 use App\Models\User;
+use App\Repositories\ApiFilmRepository;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -19,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(FilmRepositoryInterface::class, ApiFilmRepository::class);
     }
 
     /**
