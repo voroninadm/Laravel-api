@@ -16,10 +16,10 @@ class FilmSeeder extends Seeder
     {
         $film = Film::create([
             "name" => "Howl's Moving Castle",
-            "poster_image" => "https://m.media-amazon.com/images/M/MV5BMTY1OTg0MjE3MV5BMl5BanBnXkFtZTcwNTUxMTkyMQ@@._V1_SX300.jpg",
+            "poster_image" => asset('fixtures/Film/MmQ5LWEyY2YtZmFiYTZiNWNiNmI5XkEyXkFqcGc@._V1_SX300.jpg'),
             "description" => "When an unconfident young woman is cursed with an old body by a spiteful witch, her only chance of breaking the spell lies with a self-indulgent yet insecure young wizard and his companions in his legged, walking castle.",
             "director" => "Hayao Miyazaki",
-            "starring" => ["Chieko Baishô, Takuya Kimura, Tatsuya Gashûin"],
+            "starring" => "Chieko Baishô, Takuya Kimura, Tatsuya Gashûin",
             "run_time" => "119 min",
             "released" => "1 Jul 2005",
             "imdb_id" => "tt0347149",
@@ -31,10 +31,10 @@ class FilmSeeder extends Seeder
 
         $film = Film::create([
             "name" => "Castle in the Sky",
-            "poster_image" => "https://m.media-amazon.com/images/M/MV5BZjcyMjg2MzktNjg4YS00MjQzLTg0YWQtMjUyZDk2Y2Y0YzZjXkEyXkFqcGc@._V1_SX300.jpg",
+            "poster_image" => null,
             "description" => "Pazu's life changes when he meets Sheeta, a girl whom pirates are chasing for her crystal amulet, which has the potential to locate Laputa, a legendary castle floating in the sky.",
             "director" => "Hayao Miyazaki",
-            "starring" => ["Mayumi Tanaka, Keiko Yokozawa, Kotoe Hatsui"],
+            "starring" => "Mayumi Tanaka, Keiko Yokozawa, Kotoe Hatsui",
             "run_time" => "124 min",
             "released" => "12 Oct 1991",
             "imdb_id" => "tt0092067",
