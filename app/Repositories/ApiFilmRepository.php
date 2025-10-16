@@ -23,7 +23,7 @@ class ApiFilmRepository implements FilmRepositoryInterface
 
         $data = $response->json();
 
-        $film = Film::firstOrNew (['imdb_id' => $imdbId]);
+        $film = Film::firstOrNew(['imdb_id' => $imdbId]);
 
         $film->fill([
             'name' => $data['Title'],

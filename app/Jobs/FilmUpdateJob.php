@@ -52,7 +52,7 @@ class FilmUpdateJob implements ShouldQueue
 
         $this->film->status = FilmStatus::OnModeration;
         $this->film->save();
-        $this->film->genres()->attach($genresIds);
+        $this->film->genres()->sync($genresIds);
 
         DB::commit();
     }
