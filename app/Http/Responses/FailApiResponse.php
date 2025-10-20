@@ -20,7 +20,7 @@ class FailApiResponse extends BaseApiResponse
     protected function makeResponseData(): array
     {
         $response = [
-            'status' => 'fail',
+            'response' => 'false',
             'message' => $this->message,
         ];
 

@@ -14,7 +14,7 @@ use Throwable;
 
 class ExceptionApiResponse extends BaseApiResponse
 {
-    protected string $statusType = 'fail';
+    protected string $responseType = 'false';
     protected ?string $message = null;
     protected array $errors = [];
 
@@ -32,7 +32,7 @@ class ExceptionApiResponse extends BaseApiResponse
     protected function makeResponseData(): array
     {
         $response = [
-            'status' => $this->statusType,
+            'response' => $this->responseType,
             'message' => $this->message,
         ];
 

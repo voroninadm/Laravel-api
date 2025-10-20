@@ -14,7 +14,7 @@ class PaginatedApiResponse extends BaseApiResponse
 
 
         return array_merge([
-            'status' => 'success'
+            'response' => 'true'
         ], $this->prepareData());
     }
 }

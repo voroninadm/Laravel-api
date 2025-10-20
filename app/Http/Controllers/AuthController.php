@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\UserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
-            'status' => 'success',
+            'response' => 'true',
             'message' => 'Пользователь успешно зарегистрирован',
             'token' => $token,
         ], 201);
@@ -35,11 +36,13 @@ class AuthController extends Controller
     {
         $request->authenticate();
         $token = Auth::user()->createToken('auth-token')->plainTextToken;
+        $user = new UserResource(auth()->user());
 
-        return response()->json([
+        return response()->json(array_merge([
+            'response' => 'true',
             'message' => 'Успешный вход в систему',
             'token' => $token,
-        ], 200);
+        ], $user->toArray($request)), 200);
     }
 
     public function logout(): JsonResponse
@@ -47,6 +50,7 @@ class AuthController extends Controller
         Auth::user()->currentAccessToken()->delete();
 
         return response()->json([
+            'response' => 'true',
             'message' => 'Успешный выход из системы'
         ], 200);
     }

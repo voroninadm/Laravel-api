@@ -12,7 +12,7 @@ class SuccessApiResponse extends BaseApiResponse
     protected function makeResponseData(): ?array
     {
         return [
-            'status' => 'success',
+            'response' => 'true',
             'data'   => $this->data ? $this->prepareData() : null,
         ];
     }
