@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GenreRequest;
 use App\Models\Genre;
-use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
     public function index()
     {
         $genres = Genre::all();
-
-        return response()->json([
-            'genres' =>$genres,
-        ], 200);
+        return $this->successResponse($genres);
     }
 
-    public function update (Request $request, $id)
+    public function update (GenreRequest $request,Genre $genre)
     {
-        return "update";
+        $genre->update($request->validated());
+        return $this->successResponse($genre->fresh());
     }
 }
