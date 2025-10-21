@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
+use App\Models\Film;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
-    public function index(Comment $comment)
+    public function index(Film $film)
     {
-        return "comments to film";
+        $comments = $film->comments()->orderBy('created_at', 'desc')
+            ->with('author:id,name')->get();
+
+        return $this->successResponse(CommentResource::collection($comments));
     }
 
     public function store(Request $request, Comment $comment)

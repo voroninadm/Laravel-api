@@ -41,8 +41,8 @@ Route::controller(FavouriteController::class)->middleware('auth:sanctum')->group
 });
 
 Route::controller(CommentController::class)->middleware('auth:sanctum')->group(function () {
-    Route::get('/films/{id}/comments', 'index')->name('comments.index');
-    Route::post('/films/{id}/comments', 'store')->name('comments.store');
+    Route::get('/films/{film}/comments', 'index')->name('comments.index');
+    Route::post('/films/{film}/comments', 'store')->name('comments.store');
     Route::patch('/comments/{comment}', 'update')->name('comments.update');
     Route::delete('/comments/{comment}', 'destroy')->name('comments.destroy');
 });

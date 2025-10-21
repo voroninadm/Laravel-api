@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,6 +35,11 @@ class Comment extends Model
     protected $appends = [
         'author_name',
     ];
+
+//    public function getCreatedAtAttribute($value)
+//    {
+//        return $value ? Carbon::parse($value)->format('Y-m-d H:i') : null;
+//    }
 
     public function getAuthorNameAttribute()
     {
