@@ -70,7 +70,9 @@ class User extends Authenticatable
 
     public function likedFilms(): BelongsToMany
     {
-        return $this->belongsToMany(Film::class);
+        return $this->belongsToMany(Film::class)
+            ->withTimestamps()
+            ->withPivot('created_at');
     }
 
     /**

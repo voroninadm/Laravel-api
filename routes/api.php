@@ -36,8 +36,8 @@ Route::controller(GenreController::class)->middleware('auth:sanctum')->group(fun
 
 Route::controller(FavouriteController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/favourite', 'index')->name('favourite.index');
-    Route::post('/films/{id}/favourite', 'store')->name('favourite.store');
-    Route::delete('/films/films/{id}/favourite', 'destroy')->name('favourite.destroy');
+    Route::post('/films/{film}/favourite', 'store')->name('favourite.store');
+    Route::delete('/films/{film}/favourite', 'destroy')->name('favourite.destroy');
 });
 
 Route::controller(CommentController::class)->middleware('auth:sanctum')->group(function () {
