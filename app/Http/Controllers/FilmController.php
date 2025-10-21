@@ -19,6 +19,7 @@ class FilmController extends Controller
             ->filterByStatus($request->status, $request->user())
             ->ordered($request->order_by, $request->order_to)
             ->paginate(8);
+
         $films->getCollection()->transform(function ($film) {
             return new FilmListResource($film);
         });
