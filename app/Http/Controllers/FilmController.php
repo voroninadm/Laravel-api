@@ -7,12 +7,13 @@ use App\Http\Requests\Film\AddFilmRequest;
 use App\Http\Resources\FilmListResource;
 use App\Http\Resources\FilmResource;
 use App\Models\Film;
+use App\Services\FilmService;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 
 class FilmController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, FilmService $service)
     {
         $films = Film::select(Film::FIELDS_LIST)
             ->filterByGenre($request->genre)
@@ -20,16 +21,13 @@ class FilmController extends Controller
             ->ordered($request->order_by, $request->order_to)
             ->paginate(8);
 
-        $films->getCollection()->transform(function ($film) {
-            return new FilmListResource($film);
-        });
+        $service->listResourceWrap($films);
 
         return $this->paginatedResponse($films);
     }
 
-    public function show($id): Responsable
+    public function show(Film $film): Responsable
     {
-        $film = Film::with('genres')->findOrFail($id);
         return $this->successResponse(new FilmResource($film));
     }
 
@@ -43,14 +41,26 @@ class FilmController extends Controller
         return $this->successResponse(null, 201);
     }
 
-    public function update(Film $id)
+    public function update(Film $film)
     {
         return "update film";
     }
 
-    public function similar()
+    public function similar(Film $film, FilmService $service)
     {
-        return "similar films";
+        $similarFilms = Film::with('genres')
+            ->whereHas('genres', function ($query) use ($film) {
+                $query->whereIn('genres.id',
+                    $film->genres()->pluck('genres.id')
+                );
+            })
+            ->where('id', '!=', $film->id)
+            ->inRandomOrder()
+            ->paginate(4);
+
+        $service->listResourceWrap($similarFilms);
+
+        return $this->paginatedResponse($similarFilms);
     }
 
 }

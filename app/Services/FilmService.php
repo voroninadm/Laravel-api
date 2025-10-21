@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Http\Resources\FilmListResource;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -34,5 +36,16 @@ class FilmService
         Storage::disk('public')->put($path, $response);
 
         return Storage::disk('public')->url($path);
+    }
+
+    /** Оборачиваем коллекцию фильмов в возвращаемый листинг-ресурс
+     * @param LengthAwarePaginator $collection
+     * @return string
+     */
+    public function listResourceWrap(LengthAwarePaginator $collection): string
+    {
+        return $collection->getCollection()->transform(function ($film) {
+                return new FilmListResource($film);
+            });
     }
 }

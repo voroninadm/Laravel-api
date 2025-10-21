@@ -23,10 +23,10 @@ Route::controller(UserController::class)->middleware('auth:sanctum')->group(func
 
 Route::controller(FilmController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/films', 'index')->name('films.index');
-    Route::get('/films/{id}', 'show')->name('films.show');
+    Route::get('/films/{film}', 'show')->name('films.show');
     Route::post('/films/', 'store')->middleware('role:isModerator')->name('films.store');
-    Route::patch('/films/{id}', 'update')->middleware('role:isModerator')->name('films.update');
-    Route::get('/films/{id}/similar', 'similar')->name('films.similar');
+    Route::patch('/films/{film}', 'update')->middleware('role:isModerator')->name('films.update');
+    Route::get('/films/{film}/similar', 'similar')->name('films.similar');
 });
 
 Route::controller(GenreController::class)->middleware('auth:sanctum')->group(function () {
