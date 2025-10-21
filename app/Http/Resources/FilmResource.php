@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class FilmResource extends JsonResource
 {
@@ -29,6 +30,8 @@ class FilmResource extends JsonResource
             'runTime' => $this->run_time,
             'released' => $this->released,
             'imdbId' => $this->imdb_id,
+            'rating' => $this->rating,
+            'isFavorite' => $this->when(Auth::check(), $this->is_favorite),
         ];
     }
 }

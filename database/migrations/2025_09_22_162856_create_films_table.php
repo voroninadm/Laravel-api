@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('director')->nullable();
             $table->json('starring')->nullable();
             $table->string('run_time')->nullable();
-            $table->string('released')->nullable();
+            $table->date('released')->nullable();
             $table->boolean('is_promo')->default(false);
             $table->string('status')->default(FilmStatus::Pending);
             $table->string('imdb_id');
