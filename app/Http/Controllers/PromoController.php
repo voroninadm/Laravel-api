@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PromoRequest;
 use App\Models\Film;
-use Illuminate\Http\Request;
+
 
 class PromoController extends Controller
 {
@@ -12,8 +13,14 @@ class PromoController extends Controller
         return "show promo film";
     }
 
-    public function store(Request $request)
+    public function store(PromoRequest $request, Film $film)
     {
-        Film::promo()->latest('updated_at')->first();
+        $film->update(['is_promo' => $request->boolean('is_promo')]);
+
+        cache()->forget(Film::CACHE_PROMO_KEY);
+
+        return $this->successResponse([
+            'message' => 'Данные фильма успешно обновлены.',
+        ], 201);
     }
 }

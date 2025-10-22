@@ -49,5 +49,5 @@ Route::controller(CommentController::class)->middleware('auth:sanctum')->group(f
 
 Route::controller(PromoController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/promo', 'show')->name('promo.index');
-    Route::post('/promo/{id}', 'store')->middleware('role:isModerator')->name('promo.store');
+    Route::post('/promo/{film}', 'store')->middleware('role:isModerator')->name('promo.store');
 });

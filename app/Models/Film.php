@@ -18,6 +18,7 @@ class Film extends Model
      * Список необходимых колонок для фильтруемого списка фильмов
      */
     public const FIELDS_LIST = ['id', 'name', 'poster_image', 'preview_image', 'preview_video_link', 'released'];
+    public const CACHE_PROMO_KEY = 'promo_film';
 
     protected $table = 'films';
     protected $fillable = [
