@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Film;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
@@ -18,16 +19,27 @@ class CommentController extends Controller
         return $this->successResponse(CommentResource::collection($comments));
     }
 
-    public function store(Request $request, Comment $comment)
+    public function store(Film $film, CommentRequest $request)
     {
-        return "add new comment to film";
+        $film->comments()->create([
+            'rating' => $request->rating,
+            'text' => $request->text,
+            'user_id' => Auth::id(),
+        ]);
+
+        return $this->successResponse([
+            'message' => 'Комментарий успешно создан.',
+        ], 201);
     }
 
-    public function update(Request $request, Comment $comment)
+    public function update(Comment $comment, CommentRequest $request)
     {
         Gate::authorize('comment.update', $comment);
 
-        return "update comment to film";
+        $comment->update($request->validated());
+        return $this->successResponse([
+            'message' => 'Комментарий успешно обновлен.'
+        ]);
     }
 
     public function destroy(Comment $comment)

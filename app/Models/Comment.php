@@ -2,22 +2,18 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class Comment extends Model
 {
     use HasFactory;
 
-    public const string DEFAULT_AUTHOR = 'Гость';
-
     protected $fillable = [
         'text',
         'rating',
-        'parent_id',
         'user_id',
         'film_id',
     ];
@@ -26,7 +22,6 @@ class Comment extends Model
         'id',
         'text',
         'rating',
-        'parent_id',
         'created_at',
         'author',
     ];
@@ -36,14 +31,9 @@ class Comment extends Model
         'author_name',
     ];
 
-//    public function getCreatedAtAttribute($value)
-//    {
-//        return $value ? Carbon::parse($value)->format('Y-m-d H:i') : null;
-//    }
-
     public function getAuthorNameAttribute()
     {
-        return $this->author->name ?? self::DEFAULT_AUTHOR;
+        return $this->author->name;
     }
 
     public function author(): BelongsTo
@@ -54,15 +44,5 @@ class Comment extends Model
     public function film(): BelongsTo
     {
         return $this->belongsTo(Film::class);
-    }
-
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(Comment::class, 'parent_id');
-    }
-
-    public function comments(): HasMany
-    {
-        return $this->hasMany(Comment::class, 'parent_id');
     }
 }

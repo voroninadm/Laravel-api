@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Film;
 use Illuminate\Http\Request;
 
 class PromoController extends Controller
@@ -13,6 +14,6 @@ class PromoController extends Controller
 
     public function store(Request $request)
     {
-        return "store promo film";
+        Film::promo()->latest('updated_at')->first();
     }
 }
