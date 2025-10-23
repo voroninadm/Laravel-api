@@ -112,7 +112,7 @@ class Film extends Model
 
     public function scopePromo($query)
     {
-        $query->where('promo', true);
+        $query->where('is_promo', true);
     }
 
 }
