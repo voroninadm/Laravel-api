@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\FilmStatus;
 use App\Http\Requests\Film\AddFilmRequest;
+use App\Http\Requests\Film\UpdateFilmRequest;
 use App\Http\Resources\FilmListResource;
 use App\Http\Resources\FilmResource;
 use App\Models\Film;
@@ -41,9 +42,12 @@ class FilmController extends Controller
         return $this->successResponse(null, 201);
     }
 
-    public function update(Film $film)
+    public function update( UpdateFilmRequest $request, Film $film)
     {
-        return "update film";
+        $film->update($request->validated());
+        return $this->successResponse([
+            'message' => 'Фильм успешно обновлен.',
+        ]);
     }
 
     public function similar(Film $film, FilmService $service)
