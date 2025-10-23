@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\RequestException;
 use App\Http\Resources\FilmListResource;
 use App\Models\Film;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FavouriteController extends Controller

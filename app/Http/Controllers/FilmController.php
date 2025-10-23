@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\FilmStatus;
 use App\Http\Requests\Film\AddFilmRequest;
 use App\Http\Requests\Film\UpdateFilmRequest;
-use App\Http\Resources\FilmListResource;
 use App\Http\Resources\FilmResource;
 use App\Models\Film;
 use App\Services\FilmService;
