@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PromoRequest;
+use App\Http\Resources\FilmResource;
 use App\Models\Film;
 
 class PromoController extends Controller
@@ -12,6 +13,8 @@ class PromoController extends Controller
         $film = cache()->remember(Film::CACHE_PROMO_KEY, now()->addDay(), function () {
             return Film::promo()->latest('updated_at')->first();
         });
+
+        $film = $film ? new FilmResource($film) : null;
 
         return $this->successResponse($film);
     }
