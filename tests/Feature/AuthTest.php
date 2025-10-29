@@ -17,7 +17,7 @@ describe('User Authentication Flow', function () {
 
         $response->assertCreated();
         $response->assertJsonStructure([
-            'status',
+            'response',
             'message',
             'token'
         ]);

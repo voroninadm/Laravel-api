@@ -43,13 +43,16 @@
 - FilmUpdateJob - джоба для обновления единичного фильма
 - FilmsUpdateJob - джоба для обновления всех фильмов, выборка по чанкам. Задача добавлена в ежедневное исполнение в routes/console
 При тестировании очередей не забывать про ``php artisan queue:restart`` и ``php artisan queue:flush``
+13. Добавлен Swagger - darkaonline/l5-swagger.
+- ``composer require "darkaonline/l5-swagger"``
+- ``php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"``
+- ``php artisan l5-swagger:generate``
+Доступно по умолчанию по адресу ``http://localhost/api/documentation/``.
+Для примера реализованы пара эндпоинтов по жанрам.
+Пример реализации - в ``app/Swagger/GenreControllerDocs``
+В ``app/Http/Controllers/Controller`` добавлен код для документации
+14. Добавлен Makefile с некоторыми основными командами
 
 ### Обратить внимание
 1. В модели User мутатор для хеширования пароля - не надо каждый раз делать это вручную
 2. В модели Comment добавлено виртуальное значение для автора коммента ``protected $appends = ['author_name'];``
-
-### TODO
-1. middleware EnsureUserHasRole сделать на несколько ролей
-2. прикрутить swagger
-3. как назначается модератор?
-4. make file?\

@@ -1,0 +1,220 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api docs",
+        "version": "0.9"
+    },
+    "paths": {
+        "/api/genres": {
+            "get": {
+                "tags": [
+                    "Genres"
+                ],
+                "summary": "Получить все жанры",
+                "description": "Получить список всех существующих жанров.",
+                "operationId": "getGenres",
+                "responses": {
+                    "200": {
+                        "description": "Успешное получение списка жанров",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "response": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Action"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "response": "true",
+                                    "data": [
+                                        {
+                                            "id": 1,
+                                            "name": "Action"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "name": "Animation"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Pass by token": []
+                    }
+                ]
+            }
+        },
+        "/api/genres/{id}": {
+            "patch": {
+                "tags": [
+                    "Genres"
+                ],
+                "summary": "Изменить жанр",
+                "description": "Изменить существующий жанр по его Id.",
+                "operationId": "updateGenre",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID жанра",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 11
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Информация для обновления жанра",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Horror"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Жанр успешно обновлен.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "response": {
+                                            "type": "string",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 11
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Horror"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Жанр не обнаружен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "response": {
+                                            "type": "string",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Запрашиваемая страница не существует."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "response": {
+                                            "type": "string",
+                                            "example": "false"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Переданные данные не корректны."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Поле name обязательно."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Pass by token": []
+                    }
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Genres",
+            "description": "Genres"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "Pass by token": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "Sanctum",
+                "description": "Enter your token"
+            }
+        }
+    }
+}

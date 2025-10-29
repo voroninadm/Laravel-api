@@ -8,6 +8,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @OA\Info(title="Api docs", version="0.9")
+ */
 abstract class Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
